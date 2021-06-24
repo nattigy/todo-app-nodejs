@@ -19,15 +19,15 @@ export const TaskSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    // categories: {
-    //   type: [
-    //     {
-    //       type: Schema.Types.ObjectId,
-    //       ref: "Category",
-    //     },
-    //   ],
-    //   default: [],
-    // },
+    notes: {
+      type: String,
+    },
+    dueDate: {
+      type: Date
+    },
+    reminderTime: {
+      type: Date
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
