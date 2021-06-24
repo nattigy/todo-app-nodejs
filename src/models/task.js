@@ -26,7 +26,7 @@ export const TaskSchema = new Schema(
       index: true,
     },
     reminderTime: {
-      type: Date,
+      type: String,
       index: true,
     },
     owner: {
