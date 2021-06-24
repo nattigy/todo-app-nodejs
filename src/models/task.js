@@ -7,7 +7,6 @@ export const TaskSchema = new Schema(
     title: {
       type: String,
       trim: true,
-      index: true,
       default: "",
     },
     status: {
@@ -23,10 +22,12 @@ export const TaskSchema = new Schema(
       type: String,
     },
     dueDate: {
-      type: Date
+      type: Date,
+      index: true,
     },
     reminderTime: {
-      type: Date
+      type: Date,
+      index: true,
     },
     owner: {
       type: Schema.Types.ObjectId,
