@@ -39,7 +39,6 @@ TaskTC.addResolver({
 
 const TaskMutation = {
   taskCreateOne: TaskTC.getResolver("createOne"),
-  taskCreateOneCustom: TaskTC.getResolver("businessCreateOneCustom"),
   taskCreateMany: TaskTC.getResolver("createMany"),
   taskUpdateById: TaskTC.getResolver("updateById"),
   taskAddToFavorite: TaskTC.getResolver("businessAddToFavorite"),
