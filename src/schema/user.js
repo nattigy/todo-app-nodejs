@@ -9,10 +9,10 @@ const UserQuery = {
   userCount: UserTC.getResolver("count"),
   userConnection: UserTC.getResolver("connection"),
   userPagination: UserTC.getResolver("pagination"),
-  userTasks: UserTC.addRelation("coupons", {
+  userTasks: UserTC.addRelation("tasks", {
     resolver: () => TaskTC.getResolver("findByIds"),
     prepareArgs: {
-      _ids: (source) => source.coupons,
+      _ids: (source) => source.tasks,
     },
     projection: {tasks: 1},
   }),
