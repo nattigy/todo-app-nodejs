@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose";
 import timestamps from "mongoose-timestamp";
 import {composeWithMongoose} from "graphql-compose-mongoose";
 
+//Define the task model or schema
 export const TaskSchema = new Schema(
   {
     title: {
@@ -40,7 +41,7 @@ export const TaskSchema = new Schema(
 );
 
 TaskSchema.plugin(timestamps);
-
+//add time stamp to the task model
 TaskSchema.index({createdAt: 1, updatedAt: 1});
 
 export const Task = mongoose.model("Task", TaskSchema);

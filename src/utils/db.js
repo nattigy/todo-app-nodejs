@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 mongoose.Promise = global.Promise;
-
+//Mongo db configuration
 const connection = mongoose.connect(
   process.env.MONGODB_URI,
   {

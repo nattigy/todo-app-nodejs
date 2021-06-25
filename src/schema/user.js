@@ -1,6 +1,7 @@
 import {User, UserTC} from "../models/user";
 import {TaskTC} from "../models/task";
 
+//This query resolvers are defined by the mongoose library
 const UserQuery = {
   userById: UserTC.getResolver("findById"),
   userByIds: UserTC.getResolver("findByIds"),
@@ -9,6 +10,7 @@ const UserQuery = {
   userCount: UserTC.getResolver("count"),
   userConnection: UserTC.getResolver("connection"),
   userPagination: UserTC.getResolver("pagination"),
+  //create connection with the task model during fetch time
   userTasks: UserTC.addRelation("tasks", {
     resolver: () => TaskTC.getResolver("findByIds"),
     prepareArgs: {
@@ -18,6 +20,7 @@ const UserQuery = {
   }),
 };
 
+//sample user resolver to add a task to list of user tasks in user model
 UserTC.addResolver({
   name: "userAddTask",
   kind: "mutation",
@@ -26,12 +29,13 @@ UserTC.addResolver({
   resolve: async ({args}) => {
     await User.updateOne(
       {_id: args.user_id},
-      {$addToSet: {coupons: args.task_id}}
+      {$addToSet: {tasks: args.task_id}}
     ).catch((error) => error);
     return User.findById(args.id);
   },
 });
 
+//sample user resolver to remove a task from the list of user tasks in user model
 UserTC.addResolver({
   name: "userRemoveTask",
   kind: "mutation",
@@ -40,12 +44,13 @@ UserTC.addResolver({
   resolve: async ({args}) => {
     await User.updateOne(
       {_id: args.user_id},
-      {$addToSet: {coupons: args.task_id}}
+      {pull: {tasks: args.task_id}}
     ).catch((error) => error);
     return User.findById(args.id);
   },
 });
 
+//This mutations resolvers are defined by the mongoose library
 const UserMutation = {
   userCreateOne: UserTC.getResolver("createOne"),
   userCreateMany: UserTC.getResolver("createMany"),

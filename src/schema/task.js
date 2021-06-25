@@ -1,6 +1,7 @@
 import {Task, TaskTC} from "../models/task";
 import {User, UserTC} from "../models/user";
 
+//This query resolvers are defined by the mongoose library
 const TaskQuery = {
   taskById: TaskTC.getResolver("findById"),
   taskByIds: TaskTC.getResolver("findByIds"),
@@ -9,6 +10,7 @@ const TaskQuery = {
   taskCount: TaskTC.getResolver("count"),
   taskConnection: TaskTC.getResolver("connection"),
   taskPagination: TaskTC.getResolver("pagination"),
+  //create connection with the user model during fetch time
   taskOwner: TaskTC.addRelation("owner", {
     resolver: () => UserTC.getResolver("findById"),
     prepareArgs: {
@@ -18,31 +20,11 @@ const TaskQuery = {
   }),
 };
 
-TaskTC.addResolver({
-  name: "businessAddToFavorite",
-  kind: "mutation",
-  type: TaskTC,
-  args: {user_id: "String", business_id: "String"},
-  resolve: async ({args}) => {
-    await Task.updateOne(
-      {_id: args.business_id},
-      {$addToSet: {favoriteList: args.user_id}}
-    ).then(async () => {
-      await User.updateOne(
-        {_id: args.user_id},
-        {$addToSet: {favorites: args.business_id}}
-      );
-    }).catch((error) => error);
-    return Task.findById(args.business_id);
-  },
-});
-
+//This mutation resolvers are defined by the mongoose library
 const TaskMutation = {
   taskCreateOne: TaskTC.getResolver("createOne"),
   taskCreateMany: TaskTC.getResolver("createMany"),
   taskUpdateById: TaskTC.getResolver("updateById"),
-  taskAddToFavorite: TaskTC.getResolver("businessAddToFavorite"),
-  // taskRemoveFromFavorite: TaskTC.getResolver("businessRemoveFromFavorite"),
   taskUpdateOne: TaskTC.getResolver("updateOne"),
   taskUpdateMany: TaskTC.getResolver("updateMany"),
   taskRemoveById: TaskTC.getResolver("removeById"),
