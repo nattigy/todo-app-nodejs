@@ -7,8 +7,13 @@ import schema from "./schema";
 
 dotenv.config();
 
+//start the express app
 const app = express();
 
+/*Initiate the apollo server
+add schema from which os built by the mongoose library
+enable playground for demonstration purpose only
+ */
 const server = new ApolloServer({
   schema,
   playground: true,
@@ -17,12 +22,16 @@ const server = new ApolloServer({
   path: "/",
 });
 
+//add the express app to the apollo server as a middleware
 server.applyMiddleware({
   app,
   path: "/",
+  //remove cors policy to enable access from any client app
+  // not recommended for production level apps(not secured)
   cors: "no-cors",
 });
 
+//Start the server at the specified port from .env file
 app.listen({port: process.env.PORT}, () => {
   console.log(`🚀 Server listening on port ${process.env.PORT}`);
 });
